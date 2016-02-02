@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements BaseRecyclerViewA
 
 
     protected Handler handler;
+    private int start = 20;
+    private int end = 40;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,27 +73,21 @@ public class MainActivity extends AppCompatActivity implements BaseRecyclerViewA
             @Override
             public void onLoadMore() {
                 //add null , so the adapter will check view_type and show progress bar at bottom
-                studentList.add(null);
-                mAdapter.notifyItemInserted(studentList.size() - 1);
 
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //   remove progress item
-                        studentList.remove(studentList.size() - 1);
-                        mAdapter.notifyItemRemoved(studentList.size());
-                        //add items one by one
-                        int start = studentList.size();
-                        int end = start + 20;
-
-                        for (int i = start + 0; i <= end; i++) {
-                            studentList.add(new Student("Student " + i, "AndroidStudent" + i + "@gmail.com"));
-                            mAdapter.notifyItemInserted(studentList.size());
+                        studentList = new ArrayList<Student>();
+                        for (int x = start; x < end; x++) {
+                            studentList.add(new Student("Student " + x, "androidstudent" + x + "@gmail.com"));
                         }
-                        mAdapter.setLoaded();
-                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+                        start += 20;
+                        end = start + 20;
+                        mAdapter.addData(studentList);
+
                     }
                 }, 2000);
+
 
             }
         });
@@ -102,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements BaseRecyclerViewA
     // load initial data
     private void loadData() {
 
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 0; i <= 19; i++) {
             studentList.add(new Student("Student " + i, "androidstudent" + i + "@gmail.com"));
 
         }
@@ -113,6 +109,16 @@ public class MainActivity extends AppCompatActivity implements BaseRecyclerViewA
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "position: " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getCurrentDistance(int dx, int dy) {
+
+    }
+
+    @Override
+    public void currentItem(int totalItem, int lastVisItem, int firstVisItem) {
+
     }
 }
 

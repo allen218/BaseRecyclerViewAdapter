@@ -37,6 +37,13 @@ public class TestAdapter<Student> extends BaseRecyclerViewAdapter {
         viewHodler.tvEmailId.setText(((com.example.activity.recyclerviewloadmore.bean.Student) studentList.get(position)).getEmailId());
     }
 
+    public void addData(List data) {
+//        datas.clear();
+        datas.addAll(data);
+        notifyDataSetChanged();
+        setLoaded();
+    }
+
     public static class StudentViewHolder extends RecyclerView.ViewHolder {
 
 
